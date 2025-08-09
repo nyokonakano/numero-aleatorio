@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Generador de Números Aleatorios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #numero {
+            font-size: 2.5em;
+            margin: 30px 0;
+            color: #007acc;
+        }
+
+        button {
+            font-size: 1em;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        #copiado {
+            color: green;
+            font-size: 0.9em;
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Generador de Números de 7 Dígitos</h1>
+    <div id="numero">---</div>
+
+    <button onclick="mostrarNumero()">Generar número</button>
+    <button onclick="copiarNumero()">Copiar</button>
+    <div id="copiado">¡Número copiado al portapapeles!</div>
+
+    <script>
+        function generarNumero() {
+            let numero;
+            do {
+                numero = Math.floor(Math.random() * 9000000) + 1000000;
+            } while (numero.toString().startsWith('2'));
+            return numero;
+        }
+
+        function mostrarNumero() {
+            const nuevoNumero = generarNumero();
+            document.getElementById("numero").textContent = nuevoNumero;
+            document.getElementById("copiado").style.display = "none"; // Oculta mensaje si estaba visible
+        }
+
+        function copiarNumero() {
+            const numero = document.getElementById("numero").textContent;
+            if (numero && numero !== '---') {
+                navigator.clipboard.writeText(numero).then(() => {
+                    const mensaje = document.getElementById("copiado");
+                    mensaje.style.display = "block";
+                    setTimeout(() => mensaje.style.display = "none", 2000);
+                });
+            }
+        }
+
+        // Permitir Enter para generar
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                mostrarNumero();
+            }
+        });
+    </script>
+
+</body>
+</html>
